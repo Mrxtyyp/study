@@ -1,0 +1,15 @@
+{
+  "name": "webpack",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "scripts": {
+    "my_webpack": "node my.webpack.js"
+  },
+  "dependencies": {
+    "@babel/core": "^7.17.10",
+    "@babel/parser": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/traverse": "^7.17.10"
+  }
+}
