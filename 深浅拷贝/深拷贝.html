@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>深拷贝</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function deepClone(target) {
+        if(!target) return target;
+        if(target instanceof Date) return new Date(target);
+        if(target instanceof RegExp) return new RegExp(target)
+        if(typeof target !== 'object') return target;
+        let newObj = Object.create(Object.getPrototypeOf(target));
+        // let newObj = new target.constructor();
+        for(let key in target) {
+            if(target.hasOwnProperty(key)) {
+                newObj[key] = deepClone(target[key])
+            }
+        }
+        return newObj;
+    }
+
+
+    let obj1 = {
+        name: "小明",
+        family: {
+            father: "111",
+            mother: "2222",
+            sister: {
+            name: "aaaa",
+            age: "bbb",
+            },
+        },
+    };
+    let obj2 = deepClone(obj1);
+    obj2.name = "小丽";
+    obj2.family.mother = "ddddd";
+    console.log('obj1', obj1);
+    console.log('obj2', obj2);
+    
+</script>
+</html>

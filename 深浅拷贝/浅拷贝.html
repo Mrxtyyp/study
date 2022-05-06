@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浅拷贝</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function shallowClone(target) {
+        let cloneObj = {};
+        for(let key in target) {
+            // for in  会遍历原型链上的所有属性
+            // 判断下当前的key是否是target的自身的
+            if(target.hasOwnProperty(key)) {
+                cloneObj[key] = target[key]
+            }
+        }
+        return cloneObj;
+    }
+
+    const obj = {
+        a: 1,
+        b: 2,
+        c: '123',
+        d: {
+            e: 1,
+            f: 2
+        }
+    }
+
+    const obj1 = shallowClone(obj);
+    obj1.a = 11;
+    obj1.d.e = 11
+    console.log(obj1);
+    console.log(obj);
+    
+    // 只适用基本类型的属性，如果是引用类型则会影响源对象
+
+</script>
+</html>

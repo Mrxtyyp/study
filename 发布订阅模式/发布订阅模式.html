@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>发布订阅模式</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function EventBus() {
+        // 事件缓存
+        this.cachs = {};
+    }
+    // 订阅事件
+    EventBus.prototype.on = function(event, callback) {
+        // this.cachs中没有event缓存的话，则初始化成空的数组
+        this.cachs[event] = this.cachs[event] || []
+        this.cachs[event].push(callback)
+    }
+
+    // 发布事件
+    EventBus.prototype.emit = function(event, ...args) {
+        if(this.cachs[event] && this.cachs[event].length) {
+        // 事件缓存中存在当前事件的订阅者，执行callback
+            this.cachs[event].forEach(fn => {
+                fn.apply(this, args)
+            });
+        }
+    }
+
+    // 订阅事件，只执行一次
+    EventBus.prototype.once = function(event, callback) {
+        let _this = this;
+        function onceFn() {
+            _this.off(event, onceFn);
+            onceFn.fn.apply(_this, arguments)
+        }
+        onceFn.fn = callback;
+        this.on(event, onceFn);
+    }
+
+    // 取消订阅事件
+    EventBus.prototype.off = function(event, callback) {
+        if(!this.cachs[event]) return;
+        // 没传入具体取消的event下的哪个事件的话，将event订阅队列全部清空
+        if(!callback) {
+            this.cachs[event].length = 0;
+        } else {
+            // 传入了取消的event下的具体哪一个事件的话，则遍历找到传入的事件
+            // 取消具体某一事件
+            let cachEvent = this.cachs[event]
+            for(let i = 0; i < cachEvent.length; i++) {
+                // 分on、once两种情况
+                if(cachEvent[i] === callback || cachEvent[i].fn === callback) {
+                    cachEvent.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    const newEventBus = new EventBus();
+    newEventBus.on('click', function(q){
+        console.log(q);
+    })
+    newEventBus.emit('click', 123)
+
+    newEventBus.once('move', function(moveMsg) {
+        console.log(moveMsg);
+    })
+    newEventBus.emit('move', 'move to 456')
+    newEventBus.emit('move', 'move to 456')
+</script>
+</html>
