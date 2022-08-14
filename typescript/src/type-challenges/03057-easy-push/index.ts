@@ -1,0 +1,1 @@
+type Push<K extends unknown[], I> = [...K, I]
