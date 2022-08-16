@@ -1,0 +1,1 @@
+type MyParameters<F> = F extends (...arg: infer X) => void ? X : never
