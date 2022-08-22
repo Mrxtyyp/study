@@ -10,7 +10,6 @@ const result1 = a
 
 const result2 = a
   .option('name', 'another name')
-  // @ts-expect-error
   .option('name', 'last name')
   .get()
 

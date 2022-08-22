@@ -1,0 +1,1 @@
+type Last<T extends Array<unknown>> = T extends [...infer _, infer L] ? L : never
