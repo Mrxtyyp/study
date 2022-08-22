@@ -1,0 +1,1 @@
+type Pop<T extends Array<unknown>> = T extends [...infer N, infer _] ? N : []
