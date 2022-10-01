@@ -1,0 +1,1 @@
+type Trunc<T extends string | number | bigint | boolean | null | undefined> = `${T}` extends `${infer A}.${infer _}` ? A : `${T}` 
