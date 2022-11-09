@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reactive</title>
+</head>
+<body>
+    
+</body>
+<script src="./index.js"></script>
+<script>
+    const data = [1,3,4]
+    const proxyData = reactive(data)
+    console.log(proxyData);
+    proxyData.push(5)
+    console.log(proxyData);
+
+    // 测试数据
+    const data1 = {
+        name: 'zwx',
+        age: '25',
+        info: {
+            city: 'beijing',
+            a: {
+                b: {
+                    c: 1
+                }
+            }
+        }
+    }
+    let newdata = reactive(data1)
+    console.log(newdata.info.city); // get info 不是 get city
+    console.log(newdata.info.a); // b 和之后还没加入响应式
+
+    newdata.info.a.b.zzz = 88
+</script>
+</html>
