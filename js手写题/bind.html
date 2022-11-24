@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bind</title>
+</head>
+<body>
+    
+</body>
+<script>
+    Function.prototype._bind = function(context, ...args) {
+        const fn = this;
+        return function() {
+            return fn.call(context, ...args)
+        }
+    }
+    function fn1(a, b, c) {
+        console.log('this', this); // { x: 100 }
+        console.log(a, b, c); // 10 20 30
+        return 'this is fn1';
+    }
+    const fn2 = fn1._bind({ x: 100 }, 10, 20, 30);
+    const res = fn2();
+    console.log(res); // this is fn1
+</script>
+</html>

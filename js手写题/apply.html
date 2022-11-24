@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply</title>
+</head>
+<body>
+    
+</body>
+<script>
+    Function.prototype._apply = function(context, args) {
+        context = context || window;
+        const key = Symbol()
+        context[key] = this;
+
+        console.log(args);
+        const res = context[key](...args)
+        console.log(res);
+
+        delete context[key]
+        return res
+    }
+
+    const numbers = [5, 6, 2, 3, 7]
+
+    const max = Math.max._apply(null, numbers)
+
+    console.log(max)
+    // expected output: 7
+
+    const min = Math.min._apply(null, numbers)
+
+    console.log(min)
+    // expected output: 2
+</script>
+</html>

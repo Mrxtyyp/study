@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call</title>
+</head>
+<body>
+    
+</body>
+<script>
+    Function.prototype._call = function(context, ...args) {
+        context = context || window
+
+        const key = Symbol()
+        context[key] = this;
+
+        const res =  context[key](...args)
+
+        delete context[key];
+        return res;
+    }
+
+    function Product(name, price) {
+        this.name = name
+        this.price = price
+    }
+
+    function Food(name, price) {
+        Product._call(this, name, price)
+        this.category = 'food'
+    }
+
+    console.log(new Food('cheese', 5).name)
+</script>
+</html>
