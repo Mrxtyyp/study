@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <pre>
+        <code>
+            输入：adjList = [[2,4],[1,3],[2,4],[1,3]] 输出：[[2,4],[1,3],[2,4],[1,3]]
+            解释： 图中有 4 个节点。 节点 1 的值是 1，它有两个邻居：节点 2 和 4 。
+            节点 2 的值是 2，它有两个邻居：节点 1 和 3 。 节点 3 的值是
+            3，它有两个邻居：节点 2 和 4 。 节点 4 的值是 4，它有两个邻居：节点 1 和 3
+        </code>
+    </pre>
+  </body>
+  <script>
+    // Definition for a Node.
+    function Node(val, neighbors) {
+      this.val = val === undefined ? 0 : val;
+      this.neighbors = neighbors === undefined ? [] : neighbors;
+    }
+
+    /**
+     * 克隆图
+     * @param {Node} node
+     * @return {Node}
+     */
+    var cloneGraph = function (node) {
+      const map = new Map();
+      return deepTraverse(node, map);
+    };
+
+    // 方法一：深度优先遍历，先将所有节点遍历缓存到map中，然后设置邻居节点
+    function deepTraverse(node, map) {
+      if (!node) return node;
+      if (map.has(node.val)) return map.get(node.val);
+      const cp = new Node(node.val);
+      map.set(node.val, cp);
+      cp.neighbors = node.neighbors.map((i) => deepTraverse(i, map));
+      return cp;
+    }
+
+    // console.log(cloneGraph());
+  </script>
+</html>
