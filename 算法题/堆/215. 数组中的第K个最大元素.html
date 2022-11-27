@@ -27,12 +27,18 @@
 </body>
 <script>
     /**
+     * 方法一 时间复杂度 On 空间复杂度 On
      * @param {number[]} nums
      * @param {number} k
      * @return {number}
      */
-    var findKthLargest = function(nums, k) {
-        
+     var findKthLargest = function(nums = [], k) {
+        const sortNum = nums.sort((a, b) => b - a)
+        console.log(sortNum);
+        console.log(sortNum[k-1]);
+        return sortNum[k-1]
     };
+
+    findKthLargest([3,2,3,1,2,4,5,5,6], 2)
 </script>
 </html>
