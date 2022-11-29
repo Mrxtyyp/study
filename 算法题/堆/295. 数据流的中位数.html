@@ -44,7 +44,7 @@ MedianFinder.prototype.addNum = function(num) {
     // 方法一
     // this.val.push(num)
     // 方法二 插入时做好排序 findMedian的时候就不需要sort了
-    // 中位数法
+    // 二分法
     let left = 0, right = this.val.length - 1;
     while(left <= right) {
         let mid = Math.floor((left + right) / 2);
