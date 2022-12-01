@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reduce</title>
+</head>
+<body>
+    <pre>
+        <code>
+            arr.reduce(function(prev,cur,index,arr){
+                ...
+            }, init);
+
+            prev 必需。累计器累计回调的返回值; 表示上一次调用回调时的返回值，或者初始值 init;
+            cur 必需。表示当前正在处理的数组元素；
+            index 可选。表示当前正在处理的数组元素的索引，若提供 init 值，则起始索引为- 0，否则起始索引为1；
+            arr 可选。表示原数组；
+            init 可选。表示初始值。
+        </code>
+    </pre>
+</body>
+<script>
+Array.prototype.reduce1 = function(callback, initialValue) {
+    var arr = this
+    var base = typeof initialValue === 'undefined' ? arr[0] : initialValue
+    var startPoint = typeof initialValue === 'undefined' ? 1 : 0
+    arr.slice(startPoint).forEach((val, index) => {
+        base = callback(base, val, index + startPoint, arr)
+    })
+    return base
+}
+
+const arr = [1,2,3,4,5];
+const sum = arr.reduce1(function(prev,cur,index){
+    console.log(prev,cur,index);
+    return prev + cur;
+});
+console.log('arr:',arr,'sum:',sum);
+</script>
+</html>
