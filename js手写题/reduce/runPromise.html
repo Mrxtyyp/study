@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>runPromiseInSequence</title>
+  </head>
+  <body></body>
+  <script>
+    const f1 = () =>
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log("p1 running");
+          resolve(1);
+        }, 1000);
+      });
+    const f2 = () =>
+      new Promise((resolve, reject) => {
+        setTimeout(() => {
+          console.log("p2 running");
+          resolve(2);
+        }, 1000);
+      });
+    const array = [f1, f2];
+    // 按照顺序执行promise
+    const runPromiseInSequence = (array, value) =>
+      array.reduce(
+        (promiseChain, currentFunction) => promiseChain.then(currentFunction),
+        Promise.resolve(value)
+      );
+    runPromiseInSequence(array, "init");
+  </script>
+</html>
