@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Only</title>
+</head>
+<body>
+    <pre>
+        <code>
+            var o = {
+                a: 'a',
+                b: 'b',
+                c: 'c'
+            }
+            only(o, ['a','b'])   // {a: 'a',  b: 'b'}
+        </code>
+    </pre>
+</body>
+<script>
+    function only(obj = {}, keys = []) {
+        const newObj = {}
+        return keys.reduce((newObj, key) => {
+            if(!obj[key]) return newObj
+            newObj[key] = obj[key]
+            return newObj
+        }, {})
+    }
+
+    var o = {
+        a: 'a',
+        b: 'b',
+        c: 'c'
+    }
+    console.log(only(o, ['a','b']));   // {a: 'a',  b: 'b'}
+</script>
+</html>
