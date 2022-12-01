@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipe</title>
+</head>
+<body>
+    先用一个最简单的例子来看一下什么是pipe，现在我们有两个最简单的函数addOne和addTwo，分别对于参数加一和加二：
+    <pre>
+        <code>
+            const addOne = x => x + 1
+            const addTwo = x => x + 2
+
+            现在我们想让一个参数通过第一个函数之后再通过第二个函数，最直接最简单的方法是：
+
+            addTwo(addOne(1)) // 4
+
+            我们来写一个简单的pipe函数，它返回一个新的函数，来达到我们上面的目的：
+
+            const pipe = (func1, func2) => x => func2(func1(x))
+
+            const addThree = pipe(
+            addOne,
+            addTwo
+            )
+
+            addThree(1) // 4
+
+
+            嗯，现在还看不出来什么好处，但是当我们要经过的Transform越来越多的时候，这样的好处就会越来越明显：
+
+            const addTen = pipe(
+                addOne,
+                addTwo,
+                addThree,
+                addFour
+            )
+
+            所以我们需要一个更牛逼的pipe函数，它可以接受任意数量的参数，并从第一个开始，依次接受原始数值，输出值传递给下一个函数。
+            等等，我们好像想到了什么，遍历一个数组，把输出值当作下一个的输入，怎么听着都和reduce很像。
+        </code>
+    </pre>
+</body>
+<script>
+    // 让初始的参数透传每一个function，每个function都必须有return
+    const pipe = (...functions) => input => functions.reduce(
+        (acc, fn) => fn(acc),
+        input
+    )
+
+    function f1(a) {
+        console.log(a);
+        return a+1
+    }
+    function f2(b) {
+        console.log(b);
+        return b+1
+    }
+    function f3(c) {
+        console.log(c);
+        return c+1
+    }
+
+    var multi = pipe(f1,f2,f3)
+
+    multi(2)
+
+    // prototype 和 pipe的比较
+</script>
+</html>
