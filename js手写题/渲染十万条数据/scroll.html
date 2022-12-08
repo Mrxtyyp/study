@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虚拟滚动</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <style>
+        div,body {
+            margin: 0;
+            padding: 0;
+        }
+        .list-container {
+            width: 100%;
+            height: 100vh;
+            overflow: auto;
+            position: relative;
+        }
+        .list-hold-up {
+            position: absolute;
+            left: 0;
+            top: 0;
+            right: 0;
+            z-index: -1;
+        }
+        .list-item-wrap{ 
+            left: 0;
+            right: 0;
+            top: 0;
+            position: absolute;
+        }
+        .list-item {
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <div class="list-container" ref="container" @scroll="scrollEvent">
+            <div class="list-hold-up" :style="{height: listHeight+'px'}"></div>
+            <div class="list-item-wrap" ref="content">
+                <div class="list-item" v-for="item in visibleData" :key="item">{{item}}</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const vm = new Vue({
+        data() {
+            return {
+                itemHeight: 50,
+                list: [],
+                start: 0,
+                end: 0,
+                screenHeight: 0
+            }
+        },
+        computed: {
+            // 滑动区域总高度
+            listHeight() {
+                return this.list.length * this.itemHeight
+            },
+            // 可视区域能看到的数量
+            visibleCount() {
+                return Math.ceil(this.screenHeight/this.itemHeight)
+            },
+            visibleData() {
+                const start = this.start
+                return this.list.slice(start, this.end)
+            }
+        },
+        created() {
+            this.createData()
+        },
+        mounted() {
+            this.screenHeight = this.$el.clientHeight
+            console.log(this.screenHeight);
+            this.start = 0;
+            this.end = this.start + this.visibleCount;
+        },
+        methods: {
+            createData() {
+                const arr = []
+                for(let i = 0; i < 1000; i++) {
+                    arr.push(i)
+                }
+                this.list = arr;
+            },
+            scrollEvent() {
+                const scrollTop = this.$refs.container.scrollTop
+                const start = Math.floor(scrollTop/this.itemHeight)
+                this.start = start;
+                this.end = start + this.visibleCount;
+                this.$refs.content.style.transform = `translate3d(0,${start * this.itemHeight}px,0)`
+            }
+        },
+    })
+    vm.$mount('#root')
+</script>
+</html>
