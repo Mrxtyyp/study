@@ -49,7 +49,8 @@
         <div class="list-container" ref="container">
             <div class="list-hold-up" :style="{height: listHeight+'px'}"></div>
             <div class="list-item-wrap" ref="content">
-                <div class="list-item" :data-index="item" v-for="item in visibleData" :key="item">{{item}}</div>
+                <!-- <div class="list-item" :data-index="item" v-for="item in visibleData" :key="item">{{item}}</div> -->
+                <div class="list-item-observe"></div>
             </div>
         </div>
     </div>
@@ -73,10 +74,6 @@
             // 可视区域能看到的数量
             visibleCount() {
                 return Math.ceil(this.screenHeight / this.itemHeight)
-            },
-            visibleData() {
-                const start = this.start
-                return this.list.slice(start, this.end)
             }
         },
         created() {
@@ -99,27 +96,30 @@
                 }
                 this.list = arr;
             },
-            scrollEvent() {
-                const scrollTop = this.$refs.container.scrollTop
-                console.log(scrollTop);
-
-                const start = Math.floor(scrollTop / this.itemHeight)
-                this.start = start;
-                this.end = start + this.visibleCount;
-                this.$refs.content.style.transform = `translate3d(0,${start * this.itemHeight}px,0)`
+            loadData(start, end) {
+                let sliceData = this.list.slice(start, end)// 截取数据
+                let fragment = document.createDocumentFragment();
+                for (let i = 0; i < sliceData.length; i++) {
+                    let li = document.createElement('div');
+                    li.className = 'list-item'
+                    li.innerText = JSON.stringify(sliceData[i])
+                    fragment.appendChild(li);
+                }
+                this.$refs.content.insertBefore(fragment, document.querySelector('.list-item-observe'));
             },
             obsererDom() {
                 let intersectionObserver = new IntersectionObserver(
                     (entries) => {
                         console.log(entries);
-                        this.scrollEvent()
+                        this.loadData(this.start, this.end)
+                        if (entries[0].isIntersecting) {
+                            this.start += this.visibleCount;
+                            this.end = this.start + this.visibleCount;
+                        }
                     });
 
-                const targets = document.querySelectorAll('.list-item-wrap>div')
-                // 开始观察
-                targets.forEach(target => {
-                    intersectionObserver.observe(target)
-                })
+                const target = document.querySelector('.list-item-observe')
+                intersectionObserver.observe(target)
             }
         },
     })
