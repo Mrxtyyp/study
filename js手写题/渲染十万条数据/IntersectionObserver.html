@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,16 +8,19 @@
     <title>虚拟滚动</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
     <style>
-        div,body {
+        div,
+        body {
             margin: 0;
             padding: 0;
         }
+
         .list-container {
             width: 100%;
             height: 100vh;
             overflow: auto;
             position: relative;
         }
+
         .list-hold-up {
             position: absolute;
             left: 0;
@@ -24,12 +28,14 @@
             right: 0;
             z-index: -1;
         }
-        .list-item-wrap{ 
+
+        .list-item-wrap {
             left: 0;
             right: 0;
             top: 0;
             position: absolute;
         }
+
         .list-item {
             height: 50px;
             text-align: center;
@@ -37,14 +43,13 @@
         }
     </style>
 </head>
+
 <body>
     <div id="root">
         <div class="list-container" ref="container">
             <div class="list-hold-up" :style="{height: listHeight+'px'}"></div>
             <div class="list-item-wrap" ref="content">
-                <div class="list-item-top"></div>
-                <div class="list-item" v-for="item in visibleData" :key="item">{{item}}</div>
-                <div class="list-item-bottom"></div>
+                <div class="list-item" :data-index="item" v-for="item in visibleData" :key="item">{{item}}</div>
             </div>
         </div>
     </div>
@@ -67,7 +72,7 @@
             },
             // 可视区域能看到的数量
             visibleCount() {
-                return Math.ceil(this.screenHeight/this.itemHeight)
+                return Math.ceil(this.screenHeight / this.itemHeight)
             },
             visibleData() {
                 const start = this.start
@@ -89,7 +94,7 @@
         methods: {
             createData() {
                 const arr = []
-                for(let i = 0; i < 1000; i++) {
+                for (let i = 0; i < 1000; i++) {
                     arr.push(i)
                 }
                 this.list = arr;
@@ -97,8 +102,8 @@
             scrollEvent() {
                 const scrollTop = this.$refs.container.scrollTop
                 console.log(scrollTop);
-                
-                const start = Math.floor(scrollTop/this.itemHeight)
+
+                const start = Math.floor(scrollTop / this.itemHeight)
                 this.start = start;
                 this.end = start + this.visibleCount;
                 this.$refs.content.style.transform = `translate3d(0,${start * this.itemHeight}px,0)`
@@ -107,38 +112,18 @@
                 let intersectionObserver = new IntersectionObserver(
                     (entries) => {
                         console.log(entries);
-                        entries.forEach(entrie => {
-                            if(entrie.isIntersecting) {
-                                if(entrie.target.className.indexOf('top') > -1) {
-                                    
-                                    if(this.start > 0) {
-                                        this.start-=1;
-                                        this.end-=1;
-                                    }
-                                } else {
-                                    if(this.end < this.list.length) {
-                                        this.start+=1;
-                                        this.end+=1;
-                                    }
-                                }
-                                this.$refs.content.style.transform = `translate3d(0,${this.start * this.itemHeight}px,0)`
-                                console.log(this.start, this.end);
-                                
-                            }
-                        })
-                });
+                        this.scrollEvent()
+                    });
 
+                const targets = document.querySelectorAll('.list-item-wrap>div')
                 // 开始观察
-                intersectionObserver.observe(
-                    document.querySelector('.list-item-top')
-                );
-                // 开始观察
-                intersectionObserver.observe(
-                    document.querySelector('.list-item-bottom')
-                );
+                targets.forEach(target => {
+                    intersectionObserver.observe(target)
+                })
             }
         },
     })
     vm.$mount('#root')
 </script>
+
 </html>
