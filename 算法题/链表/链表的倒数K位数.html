@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+<script>
+    /**
+     * Definition for singly-linked list.
+     * function ListNode(val) {
+     *     this.val = val;
+     *     this.next = null;
+     * }
+     */
+    /**
+     * @param {ListNode} head
+     * @param {number} k
+     * @return {ListNode}
+     */
+    var getKthFromEnd = function (head, k) {
+        let slow = head, fast = head;
+        let index = 0;
+        // 快慢指针，快指针比慢指针先走k个位置，然后一起前进到末尾
+        while (index < k) {
+            fast = fast.next
+            index++
+        }
+
+        while (fast !== null) {
+            slow = slow.next
+            fast = fast.next
+        }
+        return slow
+    };
+</script>
+
+</html>
