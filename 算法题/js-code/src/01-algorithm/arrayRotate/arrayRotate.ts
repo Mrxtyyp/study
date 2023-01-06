@@ -12,7 +12,7 @@ export function arrayRotate(arr: number[], k: number): number[] {
   for (let i = 0; i < step; i++) {
     const pop = arr.pop();
     if (pop) {
-      // O(n)
+      // O(n) 会影响原数组，插入到最前面，后面的每个元素需要重置位置
       arr.unshift(pop);
     }
   }
