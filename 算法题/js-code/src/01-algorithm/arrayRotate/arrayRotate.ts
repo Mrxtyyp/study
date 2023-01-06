@@ -1,5 +1,5 @@
 /**
- * 旋转数组
+ * 旋转数组 时间复杂度 O(n^2) 空间复杂度 O(1)
  * @param arr
  * @param k 旋转的步数
  * @returns 旋转后的数组
@@ -7,9 +7,12 @@
 export function arrayRotate(arr: number[], k: number): number[] {
   if (!k || !arr.length) return arr;
   const step = Math.abs(k % arr.length);
+
+  //   时间复杂度 O(n^2) ??  循环O(n)
   for (let i = 0; i < step; i++) {
     const pop = arr.pop();
     if (pop) {
+      // O(n)
       arr.unshift(pop);
     }
   }
@@ -18,7 +21,7 @@ export function arrayRotate(arr: number[], k: number): number[] {
 }
 
 /**
- * 方式二
+ * 方式二 时间复杂度 O(1) 空间复杂度 O(n)
  * @param arr
  * @param k
  * @returns
