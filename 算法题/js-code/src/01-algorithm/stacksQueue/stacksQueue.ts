@@ -35,3 +35,50 @@ export class MyQueue {
     return this.stack1.length;
   }
 }
+
+type TLinkListNode = {
+  value: number;
+  next: TLinkListNode | null;
+};
+/**
+ * 用链表实现队列
+ */
+export class QueueList {
+  private head: TLinkListNode["next"] = null;
+  private tail: TLinkListNode["next"] = null;
+  private len: number = 0;
+
+  /**
+   * 入队
+   * @param n
+   */
+  add(n: number) {
+    const newNode: TLinkListNode = {
+      value: n,
+      next: null,
+    };
+    if (this.head === null) this.head = newNode;
+    if (this.tail === null) {
+      this.tail = newNode;
+    } else {
+      this.tail.next = newNode;
+    }
+    this.len++;
+  }
+
+  /**
+   * 出队
+   * @returns length
+   */
+  delete(): number | null {
+    if (this.head === null) return null;
+    if (this.len <= 0) return null;
+    this.head = this.head.next;
+    this.len--;
+    return this.len;
+  }
+
+  get length(): number {
+    return this.len;
+  }
+}
