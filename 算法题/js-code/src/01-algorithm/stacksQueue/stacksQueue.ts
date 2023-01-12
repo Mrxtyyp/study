@@ -73,9 +73,10 @@ export class QueueList {
   delete(): number | null {
     if (this.head === null) return null;
     if (this.len <= 0) return null;
+    const v = this.head.value;
     this.head = this.head.next;
     this.len--;
-    return this.len;
+    return v;
   }
 
   get length(): number {
