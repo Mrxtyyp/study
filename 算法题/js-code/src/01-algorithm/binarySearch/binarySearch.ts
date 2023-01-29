@@ -1,35 +1,35 @@
 //分情况返回结果，code为200返回result，及其他情况返回T
-type ResCodeSuccess = 200;
-type ResOtherCode = 400 | 500;
-type Res<T> = {
-  code: T;
-  result: any;
-  msg: string;
-};
+// type ResCodeSuccess = 200;
+// type ResOtherCode = 400 | 500;
+// type Res<T> = {
+//   code: T;
+//   result: any;
+//   msg: string;
+// };
 
-type ReturnObj<T extends Res<ResCodeSuccess | ResOtherCode>> =
-  T["code"] extends ResCodeSuccess ? T["result"] : T;
+// type ReturnObj<T extends Res<ResCodeSuccess | ResOtherCode>> =
+//   T["code"] extends ResCodeSuccess ? T["result"] : T;
 
-const resData: Res<ResOtherCode> = {
-  code: 400,
-  result: "111",
-  msg: "1212",
-};
+// const resData: Res<ResOtherCode> = {
+//   code: 400,
+//   result: "111",
+//   msg: "1212",
+// };
 
-function getRes<T extends Res<ResCodeSuccess>>(
-  response: T
-): ReturnObj<Res<ResCodeSuccess>>;
-function getRes<T extends Res<ResOtherCode>>(
-  response: T
-): ReturnObj<Res<ResOtherCode>>;
-function getRes<T extends Res<ResCodeSuccess | ResOtherCode>>(response: T) {
-  if (response["code"] === 200) return response["result"];
-  return response;
-}
+// function getRes<T extends Res<ResCodeSuccess>>(
+//   response: T
+// ): ReturnObj<Res<ResCodeSuccess>>;
+// function getRes<T extends Res<ResOtherCode>>(
+//   response: T
+// ): ReturnObj<Res<ResOtherCode>>;
+// function getRes<T extends Res<ResCodeSuccess | ResOtherCode>>(response: T) {
+//   if (response["code"] === 200) return response["result"];
+//   return response;
+// }
 
-const a = getRes(resData);
+// const a = getRes(resData);
 
-console.log(a);
+// console.log(a);
 
 // type TAutoIncrementArray
 

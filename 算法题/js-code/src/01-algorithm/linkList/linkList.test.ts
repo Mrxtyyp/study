@@ -14,7 +14,6 @@ describe("测试生成链表", () => {
     const arr = [100, 200, 300, 400];
     const linklist = createLinkList(arr);
     const linklist1 = reverseLinkList(linklist);
-    console.log(linklist);
     expect(linklist1).toEqual({
       value: 400,
       next: {
