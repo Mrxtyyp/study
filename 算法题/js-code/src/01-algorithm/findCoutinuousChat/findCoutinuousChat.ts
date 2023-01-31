@@ -3,7 +3,7 @@ type FindRes = {
   length: number;
 };
 /**
- * 找到字符串中出现次数最多的字符, 通过双指针方式
+ * 找到字符串中出现次数最多的字符, 通过双指针方式(时间复杂度 O(n) 空间复杂度 O(1))
  */
 export function findCoutinuousChat(str: string): FindRes {
   let i = -1,
